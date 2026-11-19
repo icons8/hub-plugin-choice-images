@@ -1,0 +1,55 @@
+/* Images in answer options */
+.ask-card .opt.chi .chi-pics { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.ask-card .opt.chi .chi-pics .chi-img {
+  display: block; width: 100%; max-width: 320px; aspect-ratio: 1; object-fit: contain;
+  border-radius: 10px; background: var(--surface-2, #f4f4f5); cursor: zoom-in;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.ask-card .opt.chi .chi-pics .chi-img:hover { transform: scale(1.02); }
+.ask-card .opt.chi .chi-pics:has(.chi-img + .chi-img) .chi-img { width: calc(50% - 4px); }
+/* an image in the question text is a thumbnail below it */
+.ask-card legend.chi .chi-q { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.ask-card legend.chi .chi-q .chi-img { display: block; width: 100%; max-width: 240px; aspect-ratio: 1; object-fit: contain;
+  border-radius: 10px; background: var(--surface-2, #f4f4f5); cursor: zoom-in; }
+/* the path of an image that is shown is not needed in the label */
+.ask-card legend.chi :is([data-path$=".png" i], [data-path$=".jpg" i], [data-path$=".jpeg" i], [data-path$=".webp" i], [data-path$=".gif" i]),
+.ask-card legend.chi code:has(> :is([data-path$=".png" i], [data-path$=".jpg" i], [data-path$=".jpeg" i], [data-path$=".webp" i], [data-path$=".gif" i])),
+.ask-card .opt.chi :is([data-path$=".png" i], [data-path$=".jpg" i], [data-path$=".jpeg" i], [data-path$=".webp" i], [data-path$=".gif" i]),
+.ask-card .opt.chi code:has(> :is([data-path$=".png" i], [data-path$=".jpg" i], [data-path$=".jpeg" i], [data-path$=".webp" i], [data-path$=".gif" i])) { display: none; }
+/* options with images go 4 in a row, like a Midjourney grid; one without an image ("none fits") takes the full width */
+.ask-card fieldset.chi-set { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 560px) { .ask-card fieldset.chi-set { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ask-card fieldset.chi-set > :not(.opt.chi) { grid-column: 1 / -1; }
+.ask-card fieldset.chi-set > .opt.chi { margin: 0; }
+/* grid with checkboxes: images from the question text, tick any number */
+.ask-card .chi-bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 8px; margin: 8px 0 0; padding: 4px 0;
+  font-size: 13px; color: var(--muted-foreground, #71717a); background: var(--card, #fff); }
+.ask-card .chi-bar .chi-all { padding: 2px 10px; font-size: 13px; }
+.ask-card .chi-gal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 8px 0; }
+@media (max-width: 560px) { .ask-card .chi-gal { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ask-card .chi-tile { position: relative; display: block; border-radius: 10px; overflow: hidden; cursor: pointer;
+  background: var(--surface-2, #f4f4f5); outline: 2px solid transparent; outline-offset: -2px;
+  transition: outline-color 120ms ease; }
+.ask-card .chi-tile .chi-img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; }
+.ask-card .chi-tile.chi-broken .chi-img { visibility: hidden; }
+.ask-card .chi-tile input { position: absolute; top: 8px; left: 8px; width: 20px; height: 20px; margin: 0;
+  accent-color: var(--primary, #18181b); cursor: pointer; }
+.ask-card .chi-tile:has(input:checked) { outline-color: var(--primary, #18181b); outline-width: 3px; outline-offset: -3px; }
+.ask-card .chi-tile:has(input:focus-visible) { box-shadow: 0 0 0 2px var(--ring, #a1a1aa); }
+.ask-card .chi-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 8px 5px; font-size: 12px; line-height: 1.2;
+  color: #fff; background: linear-gradient(transparent, rgb(0 0 0 / 0.55)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ask-card .chi-zoom { position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 28px; height: 28px;
+  padding: 0; border: 0; border-radius: 8px; color: #fff; background: rgb(0 0 0 / 0.45); cursor: zoom-in;
+  opacity: 0; transition: opacity 120ms ease; }
+.ask-card .chi-tile:hover .chi-zoom, .ask-card .chi-zoom:focus-visible { opacity: 1; }
+@media (hover: none) { .ask-card .chi-zoom { opacity: 1; } }
+/* our own window, when there is no hub window */
+.chi-popup { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: auto;
+  background: rgb(0 0 0 / 0.8); }
+.chi-popup img { max-width: 92vw; max-height: 92vh; object-fit: contain; cursor: zoom-in; }
+.chi-popup.zoom { place-items: start; }
+.chi-popup.zoom img { max-width: none; max-height: none; cursor: zoom-out; }
+
+/* Clean (html.th-clean): the checked tile and the checkbox use the ink of the theme, not the blue accent */
+html.th-clean .ask-card .chi-tile input { accent-color: var(--c-t1); }
+html.th-clean .ask-card .chi-tile:has(input:checked) { outline-color: var(--c-t1); }
